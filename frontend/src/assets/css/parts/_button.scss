@@ -1,0 +1,142 @@
+@use "../global/global" as *;
+@use "sass:color";
+
+.footer-button {
+    position: relative;
+
+    /* オーバーレイ */
+    .overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s, visibility 0.3s;
+        &.show {
+            opacity:1;
+            visibility: visible;
+        }
+    }
+
+    /* メニューオープン時 */
+
+
+    /* メニューボタン */
+    .menu-button {
+        position: fixed;
+        bottom: 40px;
+        right: 40px;
+        width: 64px;
+        height: 64px;
+        background: white;
+        border-radius: 50%;
+        cursor: pointer;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 999;
+        img{
+            object-fit: contain;
+            width: 50px;
+            transform: translate(0%, -10%) rotate(0);
+            transition: transform 0.3s;
+            &.rotate {
+                transform: translate(0%, -10%) rotate(360deg);
+            }
+        }
+    }
+
+
+    /* メニュー */
+    .menu {
+        position: fixed;
+        bottom: 40px;
+        right: 40px;
+        width: 64px;
+        height: 64px;
+        a {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: white;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            transform: translate(0, 0);
+            transition: transform 0.3s;
+            @include flex();
+            @include fs(30);
+            position: absolute;
+        }
+    }
+    &.open{
+        .menu{
+            a{
+                &:nth-child(1) {
+                    transform: translate(0, -80px);
+                }
+                &:nth-child(2) {
+                    transform: translate(-60px, -60px);
+                }
+                &:nth-child(3) {
+                    transform: translate(-80px, 0);
+                }
+            }
+        }
+    }
+}
+
+.donate--button{
+	width: 50%;
+	margin: 0 auto;
+	margin: 40px auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 40px;
+	>*{
+		flex:1;
+	}
+	input{
+		width: 100%;
+		background-color: white;
+		padding: 16px;
+		text-align: center;
+		@include gotham;
+		@include fs(20);
+		&::placeholder{
+			text-align: center;
+			font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+			@include fs(12);
+			font-weight: normal;
+			transform: translateY(-10%);
+		}
+	}
+	button{
+		background-color: $mc;
+		color: white;
+		border: none;
+		padding: 16px;
+		width: 100%;
+		cursor: pointer;
+		@include flex();
+		gap: 16px;
+		transition: background-color 0.3s ease-in-out;
+		&::before{
+			@include fa(\e05c);
+			transform: scaleX(-1);
+		}
+		&::after{
+			@include fa(\e05c);
+		}
+		&:hover {
+			background-color: $lmc;
+		}
+		&:disabled {
+			background-color: $gray;
+			cursor: not-allowed;
+		}
+	}
+} 
+

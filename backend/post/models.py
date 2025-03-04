@@ -45,3 +45,20 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+
+from django.db import models
+
+class YouTubeVideo(models.Model):
+    title = models.CharField(max_length=255)
+    url = models.URLField()
+
+    def embed_url(self):
+        """YouTubeのURLを埋め込みURLに変換"""
+        if "youtube.com/watch?v=" in self.url:
+            video_id = self.url.split("v=")[1].split("&")[0]
+            return f"https://www.youtube.com/embed/{video_id}"
+        elif "youtu.be/" in self.url:
+            video_id = self.url.split("youtu.be/")[1].split("?")[0]
+            return f"https://www.youtube.com/embed/{video_id}"
+        return None

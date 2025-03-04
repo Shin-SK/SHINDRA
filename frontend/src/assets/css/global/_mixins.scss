@@ -6,6 +6,7 @@
 
 $mc: #2e2930;
 $pink: #E8546B;
+$sgray: #f6f6f6;
 $gray: #e8e8e8;
 $black: #0f0f0f;
 $lmc: color.adjust($mc, $lightness: 30%);
@@ -105,6 +106,12 @@ body{
 
 @mixin shadow{
   box-shadow: 0px 0px 15px -5px #777777;
+}
+
+@mixin fa($unicode) {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "#{$unicode}";
 }
 
 /* 非表示状態 */

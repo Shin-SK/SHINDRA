@@ -16,32 +16,69 @@ from .serializers import DonationSerializer
 stripe.api_key = settings.STRIPE_SECRET_KEY  # ✅ Stripe API キーを設定
 
 
+# class CreateCheckoutSessionView(APIView):
+#     """Stripe Checkout セッションを作成"""
+#     # permission_classes = [IsAuthenticated] ログインしなくとも
+
+#     def post(self, request, post_id):
+#         post = get_object_or_404(Post, id=post_id)
+
+#         checkout_session = stripe.checkout.Session.create(
+#             payment_method_types=["card"],
+#             line_items=[{
+#                 "price_data": {
+#                     "currency": "jpy",
+#                     "product_data": {
+#                         "name": f"投げ銭: {post.title}",
+#                     },
+#                     "unit_amount": 500,  # 🔹 固定金額（可変にするならクライアントから受け取る）
+#                 },
+#                 "quantity": 1,
+#             }],
+#             mode="payment",
+#             success_url=f"{settings.FRONTEND_URL}payments/success?session_id={{CHECKOUT_SESSION_ID}}",
+#             cancel_url=f"{settings.FRONTEND_URL}payments/cancel",
+#             metadata={"post_id": post.id, "user_id": request.user.id},
+#         )
+
+#         return Response({"url": checkout_session.url})
+
+
 class CreateCheckoutSessionView(APIView):
-    """Stripe Checkout セッションを作成"""
-    permission_classes = [IsAuthenticated]  # 🔹 ログイン必須
+    """ユーザーがフロントエンドで入力した金額で決済ページを作成"""
 
     def post(self, request, post_id):
         post = get_object_or_404(Post, id=post_id)
+        
+        # フロントエンドから送信された金額（単位: 円）を取得
+        try:
+            amount = int(request.data.get("amount", 0))
+        except ValueError:
+            return Response({"error": "金額は数値で指定してください。"}, status=400)
+
+        if amount < 100 or amount > 50000:
+            return Response({"error": "金額は100円から50000円の間で指定してください。"}, status=400)
 
         checkout_session = stripe.checkout.Session.create(
             payment_method_types=["card"],
-            line_items=[{
-                "price_data": {
-                    "currency": "jpy",
-                    "product_data": {
-                        "name": f"投げ銭: {post.title}",
+            line_items=[
+                {
+                    "price_data": {
+                        "currency": "jpy",
+                        "product_data": {"name": "Donation"},
+                        "unit_amount": amount,
                     },
-                    "unit_amount": 500,  # 🔹 固定金額（可変にするならクライアントから受け取る）
-                },
-                "quantity": 1,
-            }],
+                    "quantity": 1,
+                }
+            ],
             mode="payment",
-            success_url=f"{settings.FRONTEND_URL}/donate/success?session_id={{CHECKOUT_SESSION_ID}}",
-            cancel_url=f"{settings.FRONTEND_URL}/donate/cancel",
+            success_url=f"{settings.FRONTEND_URL}payments/success",
+            cancel_url=f"{settings.FRONTEND_URL}payments/cancel",
             metadata={"post_id": post.id, "user_id": request.user.id},
         )
 
         return Response({"url": checkout_session.url})
+
 
 
 @csrf_exempt
