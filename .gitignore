@@ -1,0 +1,7 @@
+.env
+
+venv/
+_old-v1/
+
+frontend/.vscode
+frontend/node_modules

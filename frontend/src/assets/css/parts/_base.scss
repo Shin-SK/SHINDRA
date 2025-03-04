@@ -1,0 +1,56 @@
+@use "../global/global" as *;
+@use "sass:color";
+
+a{
+    text-decoration: none;
+}
+
+h1{
+    @include gotham;
+    @include fs(30);
+    text-align: center;
+    padding: 16px;
+}
+
+.home{
+    .area{
+        min-height: 100vh;
+        height: 100%;
+        @include flex();
+        flex-direction: column;
+        gap: 80px;
+        @include gotham;
+        @include fs(30);
+        a{
+            text-decoration: none;
+        }
+    }
+}
+
+.posts{
+    &.list{
+        .area{
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            gap: 16px;
+            .box{
+                h2{
+                    font-weight: bold;
+                    padding: 16px;
+                }
+                .tags{
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                    gap: 8px;
+                    span{
+                        background-color: $gray;
+                        padding: 8px 16px;
+                        @include flex();
+                        @include fs(10);
+                    }
+                }
+            }
+        }
+    }
+}
