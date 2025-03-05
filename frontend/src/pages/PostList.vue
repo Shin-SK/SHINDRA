@@ -45,6 +45,7 @@
 			<router-link :to="`/storys/${post.slug}`">
 			  <h3>{{ post.title }}</h3>
 			</router-link>
+			<FavButton :postId="post.id" />
   
 			<!-- タグ表示 -->
 			<div class="tags">

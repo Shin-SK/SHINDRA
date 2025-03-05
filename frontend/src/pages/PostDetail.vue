@@ -28,7 +28,7 @@
 <script>
 import { ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
-import axios from "axios";
+import api from "@/api";
 
 export default {
   setup() {
@@ -37,11 +37,34 @@ export default {
     const loading = ref(true);
     const error = ref(null);
 
+    // --- ① 閲覧履歴を追加する関数 ---
+    const addToViewHistory = (postData) => {
+      // 既存の履歴を取得（なければ空配列）
+      let history = JSON.parse(localStorage.getItem('viewHistory') || '[]');
+      // 同じIDのものがあれば一度削除（重複回避）
+      history = history.filter(item => item.id !== postData.id);
+      // 最新を先頭に追加
+      history.unshift({
+        id: postData.id,
+        slug: postData.slug,
+        title: postData.title,
+        image: postData.image
+      });
+      // 件数を10件に制限
+      history = history.slice(0, 10);
+      // Local Storageに保存
+      localStorage.setItem('viewHistory', JSON.stringify(history));
+    };
+
     const fetchPost = async () => {
       try {
         const { slug } = route.params;
-        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}posts/${slug}/`);
+        const response = await api.get(`${import.meta.env.VITE_API_BASE_URL}posts/${slug}/`);
         post.value = response.data;
+
+        // --- ② Postデータ取得後に履歴追加 ---
+        addToViewHistory(response.data);
+
       } catch (err) {
         console.error("Error fetching post:", err);
         error.value = "投稿を取得できませんでした。";
@@ -68,7 +91,7 @@ export default {
       post,
       loading,
       error,
-      shareOnTwitter,
+      shareOnTwitter
     };
   },
 };

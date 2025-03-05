@@ -13,7 +13,7 @@
 		<router-link :to="{ path: '/posts', query: { category: 'podcast' } }" @click="toggleMenu">
 			<button><i class="fas fa-podcast"></i></button>
 		</router-link>
-		<router-link to="/mypage" @click="toggleMenu">
+		<router-link to="/dashboard" @click="toggleMenu">
 			<button><i class="fas fa-tachometer-alt"></i></button>
 		</router-link>
 	  </div>

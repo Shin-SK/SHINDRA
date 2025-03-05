@@ -28,7 +28,7 @@
         right: 40px;
         width: 64px;
         height: 64px;
-        background: white;
+        // background: white;
         border-radius: 50%;
         cursor: pointer;
         border: none;
@@ -64,7 +64,8 @@
             font-size: 20px;
             cursor: pointer;
             transform: translate(0, 0);
-            transition: transform 0.3s;
+            opacity: 0;
+            transition: transform 0.3s, opacity 0.3s;
             @include flex();
             @include fs(30);
             position: absolute;
@@ -73,6 +74,7 @@
     &.open{
         .menu{
             a{
+                opacity: 1;
                 &:nth-child(1) {
                     transform: translate(0, -80px);
                 }

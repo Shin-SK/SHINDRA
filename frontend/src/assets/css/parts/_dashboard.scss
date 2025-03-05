@@ -1,0 +1,15 @@
+@use "../global/global" as *;
+@use "sass:color";
+
+
+.dashboard{
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	align-items: center;
+	justify-content: center;
+	gap: 40px;
+	h4{
+		margin-bottom: 16px;
+	}
+}

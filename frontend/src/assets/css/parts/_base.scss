@@ -16,6 +16,18 @@ h2{
     padding: 16px;
 }
 
+h3{
+    font-weight: bold;
+    padding: 16px;
+    padding-left: 0;
+}
+
+h4{
+    @include fs(20);
+    font-weight: bold;
+    text-align: center;
+}
+
 .home{
     .area{
         min-height: 100vh;
@@ -31,7 +43,19 @@ h2{
     }
 }
 
-
+.grid-4{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 16px;
+    img{
+        aspect-ratio: 16/9;
+        object-fit: cover;
+        width: 100%;
+    }
+    @include sp{
+        grid-template-columns: repeat(2,1fr);
+    }
+}
 
 .detail{
     background-color: $gray;

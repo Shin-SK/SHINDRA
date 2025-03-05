@@ -267,6 +267,18 @@ h2 {
   padding: 16px;
 }
 
+h3 {
+  font-weight: bold;
+  padding: 16px;
+  padding-left: 0;
+}
+
+h4 {
+  font-size: clamp(2rem, 1.9346938776rem + 0.2040816327vw, 2.2rem);
+  font-weight: bold;
+  text-align: center;
+}
+
 .home .area {
   min-height: 100vh;
   height: 100%;
@@ -282,6 +294,23 @@ h2 {
 }
 .home .area a {
   text-decoration: none;
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.grid-4 img {
+  aspect-ratio: 16/9;
+  -o-object-fit: cover;
+     object-fit: cover;
+  width: 100%;
+}
+@media screen and (max-width: 576px) {
+  .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .detail {
@@ -372,7 +401,6 @@ h2 {
   right: 40px;
   width: 64px;
   height: 64px;
-  background: white;
   border-radius: 50%;
   cursor: pointer;
   border: none;
@@ -407,12 +435,16 @@ h2 {
   font-size: 20px;
   cursor: pointer;
   transform: translate(0, 0);
-  transition: transform 0.3s;
+  opacity: 0;
+  transition: transform 0.3s, opacity 0.3s;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: clamp(3rem, 2.9346938776rem + 0.2040816327vw, 3.2rem);
   position: absolute;
+}
+.footer-button.open .menu a {
+  opacity: 1;
 }
 .footer-button.open .menu a:nth-child(1) {
   transform: translate(0, -80px);
@@ -536,11 +568,6 @@ h2 {
   aspect-ratio: 16/9;
   max-width: 100%;
 }
-.posts--list .area .box h3 {
-  font-weight: bold;
-  padding: 16px;
-  padding-left: 0;
-}
 .posts--list .area .box .tags {
   display: flex;
   justify-content: flex-start;
@@ -556,4 +583,16 @@ h2 {
   align-items: center;
   font-size: clamp(1rem, 0.9346938776rem + 0.2040816327vw, 1.2rem);
   cursor: default;
+}
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+}
+.dashboard h4 {
+  margin-bottom: 16px;
 }/*# sourceMappingURL=style.css.map */
