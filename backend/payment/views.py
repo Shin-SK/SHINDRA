@@ -12,8 +12,8 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics
 
-from post.models import Post
-from user.models import CustomUser
+from backend.post.models import Post
+from backend.user.models import CustomUser
 from .models import Donation
 from .serializers import DonationSerializer
 

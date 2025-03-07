@@ -1,7 +1,7 @@
 import uuid
 from django.db import models
 from django.utils.text import slugify
-from user.models import CustomUser
+from backend.user.models import CustomUser
 from cloudinary.models import CloudinaryField
 
 class Category(models.Model):

@@ -1,9 +1,9 @@
 # notifications/signals.py
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from post.models import Post
+from backend.post.models import Post
 from .models import Notification
-from user.models import CustomUser  # あなたのUserモデル
+from backend.user.models import CustomUser  # あなたのUserモデル
 
 @receiver(post_save, sender=Post)
 def create_notification_for_new_post(sender, instance, created, **kwargs):
