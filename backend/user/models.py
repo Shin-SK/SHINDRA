@@ -11,7 +11,7 @@ class CustomUser(AbstractUser):
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='general')
 
     class Meta:
-        app_label = 'user'   # これを追加
+        app_label = 'myuser'   # これを追加
 
     def __str__(self):
         return f"{self.username} ({self.role})"

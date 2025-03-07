@@ -76,7 +76,7 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 }
 
-AUTH_USER_MODEL = 'user.CustomUser'
+AUTH_USER_MODEL = 'myuser.CustomUser'
 
 CORS_ALLOW_ALL_ORIGINS = True
 
