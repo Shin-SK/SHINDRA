@@ -44,11 +44,12 @@ INSTALLED_APPS = [
     'corsheaders',
     'stripe',
     'django_filters',
-    'backend.notification.apps.NotificationsConfig',
-    'backend.post.apps.PostConfig',
-    'backend.user.apps.UserConfig',
-    'backend.favorite',
-    'backend.payment',
+    'notification.apps.NotificationsConfig',
+    'post.apps.PostConfig',
+    # 'post',
+    'user',
+    'favorite',
+    'payment',
 ]
 
 
@@ -76,7 +77,8 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 }
 
-AUTH_USER_MODEL = 'myuser.CustomUser'
+
+AUTH_USER_MODEL = 'user.CustomUser'
 
 CORS_ALLOW_ALL_ORIGINS = True
 
