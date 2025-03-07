@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'django_filters',
     'backend.notification.apps.NotificationsConfig',
     'backend.post.apps.PostConfig',
-    'backend.user',
+    'backend.user.apps.UserConfig',
     'backend.favorite',
     'backend.payment',
 ]
@@ -76,8 +76,7 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 }
 
-
-AUTH_USER_MODEL = 'backend.user.CustomUser'
+AUTH_USER_MODEL = 'user.CustomUser'
 
 CORS_ALLOW_ALL_ORIGINS = True
 
