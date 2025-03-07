@@ -21,7 +21,7 @@ load_dotenv()  # .env を読み込む
 SECRET_KEY = 'django-insecure-!ofa3l#7t1+4b+8(phen=&7931x!25=mo#o0n6w9_d_11l8(u5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = []
 
@@ -213,3 +213,11 @@ EMAIL_USE_TLS = (os.environ.get('DJANGO_EMAIL_USE_TLS', 'False') == 'True')
 EMAIL_USE_SSL = (os.environ.get('DJANGO_EMAIL_USE_SSL', 'False') == 'True')
 
 DEFAULT_FROM_EMAIL = os.environ.get('DJANGO_DEFAULT_FROM_EMAIL', 'webmaster@localhost')
+
+
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost',
+    'studio-shindra-dcf84f702c19.herokuapp.com',
+    # 必要であればその他のドメインも...
+]
