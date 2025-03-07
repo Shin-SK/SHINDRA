@@ -98,7 +98,9 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'config.wsgi.application'
+WSGI_APPLICATION = 'backend.config.wsgi.application'
+ROOT_URLCONF = 'backend.config.urls'
+
 
 
 # Database
