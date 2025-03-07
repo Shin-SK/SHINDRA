@@ -3,13 +3,41 @@
 
 
 .dashboard{
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	align-items: center;
-	justify-content: center;
-	gap: 40px;
-	h4{
-		margin-bottom: 16px;
+	.username{
+		position: fixed;
+		left: 8px;
+		top: 0;
+		&__wrap{
+			span{
+				line-height: 1;
+				@include fs(20);
+				@include gotham;
+				text-transform: uppercase;
+				@include flex();
+				justify-content: flex-start;
+				gap: 8px;
+				&::before{
+					@include fa("\f2bd");
+				}
+			}
+		}
 	}
+	.db{
+		position: relative;
+		.grid--dashboard{
+			.box{
+				.title{
+					.donate-stamp{
+						color: $white;
+						font-weight: bold;
+					}
+					.time-stamp{
+						
+					}
+				}
+			}
+		}//grid-dashboar
+	}
+
+
 }

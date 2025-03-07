@@ -14,8 +14,8 @@
   </template>
   
   <script>
-  import axios from "axios";
   import { ref } from "vue";
+  import api from "@/api"; // ★ import api(認証付き)
   
   export default {
 	props: {
@@ -35,15 +35,20 @@
 		}
 		loading.value = true;
 		try {
-		  const response = await axios.post(
-			`${import.meta.env.VITE_API_BASE_URL}payments/${props.postId}/`,
-			{ amount: amount.value }
-		  );
+		  // ★ ここで api.post → ユーザー認証付きリクエスト
+		  const response = await api.post(`payments/${props.postId}/`, {
+			amount: amount.value, // (数値)
+		  });
+  
+		  // Stripe決済URLが { url: "https://checkout.stripe.com/..." } で返る想定
 		  if (response.data.url) {
 			window.location.href = response.data.url;
+		  } else {
+			console.warn("Stripe URLが返されませんでした:", response.data);
 		  }
 		} catch (err) {
 		  console.error("投げ銭エラー:", err);
+		  alert("投げ銭に失敗しました…");
 		} finally {
 		  loading.value = false;
 		}

@@ -1,12 +1,25 @@
 @use "../global/global" as *;
 @use "sass:color";
 
+html::-webkit-scrollbar {
+    //画面のグラつき、めり込む問題解消
+    display: none;
+  }
 body{
-    background-color: $sgray;
+    background-color: $mc;
+    color:$white;
+    min-height: 100vh;
+    //画面のグラつき、めり込む問題解消
+  overscroll-behavior: none;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 a{
     text-decoration: none;
+}
+.container-fluid{
+    max-width: 100%;
 }
 
 h2{
@@ -14,18 +27,31 @@ h2{
     @include fs(30);
     text-align: center;
     padding: 16px;
+    color: $white;
 }
 
 h3{
     font-weight: bold;
-    padding: 16px;
+    padding: 8px;
     padding-left: 0;
+    color: $white;
 }
 
 h4{
     @include fs(20);
     font-weight: bold;
     text-align: center;
+}
+
+.time-stamp{
+    margin-bottom: 4px;
+    @include flex();
+    justify-content: flex-start;
+    &::before{
+        @include fa("\f017");
+        margin-right: 4px;
+        font-weight: 400;
+    }
 }
 
 .home{
@@ -43,66 +69,45 @@ h4{
     }
 }
 
-.grid-4{
+
+.grid{
     display: grid;
-    grid-template-columns: repeat(4,1fr);
-    gap: 16px;
-    img{
-        aspect-ratio: 16/9;
-        object-fit: cover;
-        width: 100%;
-    }
-    @include sp{
-        grid-template-columns: repeat(2,1fr);
-    }
-}
-
-.detail{
-    background-color: $gray;
-    padding: 16px 0px;
-    padding-bottom: 80px;
-    &__wrap{
-        .area{
-            height: 95vh;
+    grid-template-columns: repeat(1fr);
+    gap: 4px;
+    .box{
+        position: relative;
+        height: auto;
+        img{
+            aspect-ratio: 16/8;
+            object-fit: cover;
+        }
+        .title{
+            position: absolute;
+            bottom: 0;
             width: 100%;
-            overflow-x: scroll;
+            padding: 0px 4px;
+            height: 50%;
+            background-image: linear-gradient(180deg, rgba(255, 255, 255, 0) 10%, rgba(0, 0, 0, 0.8) 60%);
             display: flex;
-            align-items: flex-start;
-            flex-direction: row-reverse;
-            background-color: white;
-            padding: 40px;
-            h1{
-                @include fs(20);
-                font-weight: bold;
-                display: block;
-                writing-mode: vertical-rl;
-                text-orientation: upright;
-            }
-            .contents{
-                writing-mode: vertical-rl;
-                text-orientation: upright;
-                line-height: 2;
-                text-align: justify;
-                column-count: 1;
-                white-space: pre-line;//今だけ
-                padding-left: 50%;
-            }
-        }
-    }//__wrap
-    .thumbnail{
-        padding: 16px 0px;
-    }
-    .share{
-        .wrap{
-            @include flex();
-            gap: 16px;
-            i{
-                @include fs(30);
+            justify-content: space-between;
+            align-items: flex-end;
+            &__wrap{
+                h3{
+                    @include fs(12);
+                    padding: 0;
+                    color: white;
+                }
+                .donate-stamp{
+                    color: $white;
+                    font-weight: bold;
+                }
+                .time-stamp{
+                    
+                }
             }
         }
     }
-}
-
+}//grid-dashboar
 
 .success{
     min-height: 100vh;
@@ -117,5 +122,30 @@ h4{
             text-align: center;
             line-height: 2;
         }
+    }
+}
+
+
+.tag-links{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    span{
+        @include flex();
+        @include fs(10);
+        cursor: pointer;
+        &::before{
+            content:'#';
+            margin-right: 2px;
+        }
+    }
+}
+
+
+.setting{
+    .pw-reset{
+        flex:1;
     }
 }

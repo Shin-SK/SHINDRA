@@ -1,14 +1,16 @@
-import axios from 'axios';
+// src/api.js
+import axios from 'axios'
 
-const accessToken = localStorage.getItem('accessToken') || ""
+// ログイン時に保存した 'authToken'
+const token = localStorage.getItem('authToken') || ""
 
 const api = axios.create({
-  baseURL: 'http://127.0.0.1:8000/api/',
+  baseURL: 'http://127.0.0.1:8000/api/', // ローカル開発用
   headers: {
     'Content-Type': 'application/json',
-    // 初回ロード時にトークンがあれば付ける
-    'Authorization': accessToken ? `Bearer ${accessToken}` : ''
+    // dj-rest-auth なら "Token <キー>"
+    'Authorization': token ? `Token ${token}` : ''
   }
-});
+})
 
-export default api;
+export default api

@@ -1,0 +1,55 @@
+@use "../global/global" as *;
+@use "sass:color";
+
+input{
+	background-color: $white;
+	padding: 8px;
+	width: 100%;
+	line-height: 2;
+	&::placeholder{
+		color: #e5e5e5;
+	}
+}
+
+
+label{
+	color: white;
+}
+
+
+.form{
+	min-height: 100vh;
+	@include flex();
+	.form__wrap{
+		flex: 1;
+		.area{
+			display: flex;
+			gap: 40px;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+		}
+	}
+}
+
+
+.login, .signup, .pw-reset{
+	input{
+		@include gotham;
+		text-align: center;
+		@include fs(20);
+	}
+	button{
+		@include gotham;
+		@include fs(20);
+		line-height: 2;
+		width: 100%;
+		padding: 8px;
+		@include flex();
+		background-color: $white;
+		img{
+			width: 24px;
+			margin-right: 8px;
+		}
+	}
+}

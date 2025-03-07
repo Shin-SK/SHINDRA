@@ -1,41 +1,55 @@
+@use "sass:math";
 @use "../global/global" as *;
 @use "sass:color";
 
 .footer-button {
-    position: relative;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.3s, transform 0.3s;
+    &.visible{
+        opacity: 1;
+        transform: translateY(0);
+    }
 
     /* オーバーレイ */
     .overlay {
-        position: fixed;
+        position: relative;
         inset: 0;
         background: rgba(0, 0, 0, 0.5);
         opacity: 0;
-        visibility: hidden;
+        display: none;
         transition: opacity 0.3s, visibility 0.3s;
+        z-index: 9; 
+        width: 100vw;
+        height: 100vh;
         &.show {
             opacity:1;
-            visibility: visible;
+            display: block;
         }
     }
-
-    /* メニューオープン時 */
-
 
     /* メニューボタン */
     .menu-button {
         position: fixed;
-        bottom: 40px;
-        right: 40px;
+        bottom: 24px;
+        right: 0;
+        left: 0;
+        margin: 0 auto;
         width: 64px;
         height: 64px;
-        // background: white;
+        background: rgba($color: white, $alpha: 0.9);
         border-radius: 50%;
         cursor: pointer;
         border: none;
         display: flex;
         align-items: center;
         justify-content: center;
-        z-index: 999;
+        z-index: 9999;
         img{
             object-fit: contain;
             width: 50px;
@@ -47,14 +61,18 @@
         }
     }
 
-
+// 変数を宣言
+$items: 3;
+$radius: 80px;
     /* メニュー */
     .menu {
         position: fixed;
-        bottom: 40px;
-        right: 40px;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%);
         width: 64px;
         height: 64px;
+        z-index: 999;
         a {
             width: 50px;
             height: 50px;
@@ -63,47 +81,57 @@
             border: none;
             font-size: 20px;
             cursor: pointer;
-            transform: translate(0, 0);
             opacity: 0;
             transition: transform 0.3s, opacity 0.3s;
             @include flex();
             @include fs(30);
             position: absolute;
+            left: 50%;
+            top: 50%;
+            transform:translate(-50%, -50%);
         }
     }
-    &.open{
-        .menu{
-            a{
-                opacity: 1;
-                &:nth-child(1) {
-                    transform: translate(0, -80px);
-                }
-                &:nth-child(2) {
-                    transform: translate(-60px, -60px);
-                }
-                &:nth-child(3) {
-                    transform: translate(-80px, 0);
-                }
+    &.open {
+      .menu {
+        a {
+            opacity: 1;
+          @for $i from 1 through $items {
+            &:nth-child(#{$i}) {
+            // i=1 → 左端 (0°)
+            // i=$items → 右端 (180°)
+            $angle-deg: math.div(180, $items - 1) * ($i - 1); 
+            // deg→rad
+            $angle-rad: $angle-deg * math.div(math.$pi, 180);
+
+            // x → cos(θ), y → -sin(θ)
+            //    ↑ここでマイナスを付けると上方向がプラスになる
+            $x: $radius * math.cos($angle-rad);
+            $y: -($radius * math.sin($angle-rad));
+
+            // 親中心から放射状
+            transform:translate(-50%, -50%) translate(#{$x}, #{$y});
             }
+          }
         }
+      }
     }
 }
 
 .donate--button{
-	width: 50%;
+	width: 100%;
 	margin: 0 auto;
-	margin: 40px auto;
+	margin: 24px auto;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 40px;
+	gap: 24px;
 	>*{
 		flex:1;
 	}
 	input{
 		width: 100%;
-		background-color: white;
-		padding: 16px;
+		background-color: $white;
+		padding: 8px;
 		text-align: center;
 		@include gotham;
 		@include fs(20);
@@ -116,8 +144,8 @@
 		}
 	}
 	button{
-		background-color: $mc;
-		color: white;
+		background-color: $white;
+		color: $mc;
 		border: none;
 		padding: 16px;
 		width: 100%;
@@ -133,7 +161,7 @@
 			@include fa(\e05c);
 		}
 		&:hover {
-			background-color: $lmc;
+			background-color: $orange;
 		}
 		&:disabled {
 			background-color: $gray;
@@ -142,3 +170,117 @@
 	}
 } 
 
+
+.share-button{
+    @include flex();
+    gap: 40px;
+    @include fs(40);
+    color: $white;
+    .fa-twitter{
+        cursor: pointer;
+    }
+}
+
+.fav-button{
+    button{
+        .fav{
+            width: 16px;
+            height: 16px;
+            &::before{
+                @include fa("\f004");
+                color: gray;
+            }
+            &.active{
+                &::before{
+                    color: rgb(233, 56, 86);
+                }
+            }
+        }
+
+    }
+}
+
+.search-button{
+    @include fs(20);
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 999;
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: opacity 0.3s, transform 0.3s;
+    &.visible{
+        opacity: 1;
+        transform: translateX(0);
+    }
+    button{
+        width: 45px;
+        height: 45px;
+        background-color: rgba($color: white, $alpha: 0.8);
+        border-radius: 100%;
+        @include flex();
+    }
+}
+
+.search{
+    position: fixed;
+    top: 0;
+    left: 0;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: none;
+    transition: opacity 0.3s, visibility 0.3s;
+    z-index: 9; 
+    width: 100vw;
+    height: 100vh;
+    &.visible {
+        @include flex();
+    }
+    &__wrap{
+        background: black;
+        padding: 16px;
+        border-radius: 8px;
+        margin: auto 16px;
+        @include flex();
+        min-height: 50vh;
+        .area{
+            .text-search{
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                gap: 16px;
+                margin-bottom: 40px;
+                input{
+                    background-color: $white;
+                    padding: 16px;
+                    border-radius: 8px;
+                }
+                button{
+                    background-color: white;
+                    padding: 8px;
+                    border-radius: 8px;
+                    font-weight: bold;
+                    i{
+                        margin-right: 4px;
+                    }
+                }
+            }
+            .filter{
+                .wrap{
+                    &.tag{
+                        span{
+                            &::before{
+                                content: '#';
+                                margin-right: 2px;
+                            }
+                            &::after{
+                                content: '|';
+                                margin: auto 8px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

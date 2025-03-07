@@ -4,11 +4,13 @@
 
 //----- color -----//
 
-$mc: #2e2930;
+$mc: #000b00;
 $pink: #E8546B;
 $sgray: #f6f6f6;
 $gray: #e8e8e8;
-$black: #0f0f0f;
+$black: #000b00;
+$white:#fffffc;
+$orange: #ff4800;
 $lmc: color.adjust($mc, $lightness: 30%);
 
 //----- font-style -----//
@@ -87,7 +89,7 @@ body{
       @include fs(30);
   }
     section{
-        margin-bottom: 40px;
+        // margin-bottom: 40px;
         &::before { /* アンカーズレ調整 */
           content: "";
           display: block;
@@ -128,6 +130,9 @@ body{
 
 body{
   line-height: normal;
+  a{
+    color: $white;
+  }
 }
 
 

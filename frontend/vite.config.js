@@ -8,5 +8,8 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, 'src') // これで `@` が `src/` を指すようになる
     }
+  },
+  css: {
+    devSourcemap: true
   }
 });

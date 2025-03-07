@@ -1,87 +1,132 @@
 <template>
-	<div class="dashboard container">
-		<h2>DASHBOARD</h2>
-
-		<div class="favorite--list">
-		<h4>お気に入り</h4>
-		<!-- グリッド -->
-		<div class="area grid-4">
-			<div class="box" v-for="post in filteredPosts" :key="post.id">
+	<div class="dashboard posts posts--list">
+		<section class="username">
+			<div class="username__wrap">
+				<span>{{ username }}</span>
+			</div>
+		</section>
+	  <!-- お気に入り一覧 -->
+	  <div class="wrap db db--fav">
+		<div class="contents-title">LIKE</div>
+		<div class="area grid grid--dashboard">
+		  <div class="box" v-for="post in filteredPosts" :key="post.id">
 			<!-- 画像リンク -->
 			<router-link :to="`/posts/${post.slug}`" class="tumbnail">
-				<img v-if="post.image" :src="post.image" alt="投稿画像" />
-				<img v-else src="/dummy.webp" alt="ダミー画像" />
+			  <img v-if="post.image" :src="post.image" alt="投稿画像" />
+			  <img v-else src="/dummy.webp" alt="ダミー画像" />
 			</router-link>
-
-			<!-- タイトルリンク -->
-			<router-link :to="`/posts/${post.slug}`">
-				<h3>{{ post.title }}</h3>
-			</router-link>
-
-			<!-- タグ表示（お好みで対応） -->
-			<div class="tags">
-				<span v-for="tag in (post.tags || [])" :key="tag.id">#{{ tag.name }}</span>
-			</div>
-			</div>
-		</div><!-- area -->
-				<div class="allpost">
-			<router-link :to="`/posts/`">allpost</router-link>
+			<!-- タイトル -->
+			 <div class="title">
+				<div class="title__wrap">
+					<router-link :to="`/posts/${post.slug}`">
+					<h3>{{ post.title }}</h3>
+					</router-link>
+				</div>
+				<!-- お気に入りボタン -->
+				<FavButton :postId="post.id" :postSlug="post.slug" />
+			 </div>
+		  </div>
 		</div>
-		</div><!-- favList -->
-
-		<div class="history">
-		<h4>最近見た投稿</h4>
-		<div class="area grid-4 container">
-			<div class="box" v-for="item in viewHistory" :key="item.id">
-			<!-- 画像リンク -->
+	  </div>
+  
+	  <!-- 閲覧履歴 -->
+	  <div class="wrap db db--history">
+		<div class="contents-title">HISTORY</div>
+		<div class="area grid grid--dashboard">
+		  <div class="box" v-for="item in viewHistory" :key="item.id">
 			<router-link :to="`/posts/${item.slug}`" class="tumbnail">
-				<img v-if="item.image" :src="item.image" alt="投稿画像" />
-				<img v-else src="/dummy.webp" alt="ダミー画像" />
+			  <img v-if="item.image" :src="item.image" alt="投稿画像" />
+			  <img v-else src="/dummy.webp" alt="ダミー画像" />
 			</router-link>
-			<router-link :to="`/posts/${item.slug}`">
-				<h3>{{ item.title }}</h3>
-			</router-link>
+			<div class="title">
+				<div class="title__wrap">
+					<router-link :to="`/posts/${item.slug}`">
+					<h3>{{ item.title }}</h3>
+					</router-link>
+				</div>
 			</div>
+		  </div>
 		</div>
+	  </div>
+  
+	  <!-- 🔹投げ銭一覧 追加！ -->
+	  <div class="wrap db db--donation">
+		<div class="contents-title">DONATE</div>
+		<div class="area grid grid--dashboard">
+		  <div class="box" v-for="donation in donationHistory" :key="donation.id">
+			<!-- 投稿へのリンク -->
+			<router-link :to="`/posts/${donation.post_slug}`" class="tumbnail">
+			  <img v-if="donation.post_image" :src="donation.post_image" alt="投稿画像" />
+			  <img v-else src="/dummy.webp" alt="投稿画像" />
+			</router-link>
+			<div class="title">
+				<div class="title__wrap">
+					<router-link :to="`/posts/${donation.post_slug}`">
+					<h3>{{ donation.post_title }}</h3>
+					</router-link>
+					<div class="donate-stamp">{{ donation.amount }} 円</div>
+					<div class="time-stamp">{{ formatDateTime(donation.created_at) }}</div>
+				</div>
+			</div>
+		  </div>
 		</div>
+	  </div>
 	</div>
-</template>
+  </template>
   
   <script>
   import { ref, onMounted, computed } from 'vue'
   import api from '@/api'
+  import TagLinks from '@/components/TagLinks.vue'
+  import { formatDateTime } from '@/utils/dateFormat.js'
+
   
   export default {
 	name: 'Dashboard',
+	components: { TagLinks },
 	setup() {
-	  const favoritePosts = ref([])
-	  const viewHistory = ref([])
-  
+		// ユーザーネーム用
+		const username = ref('')
+		// ふぁぼ
+		const favoritePosts = ref([])
+		// 視聴履歴
+		const viewHistory = ref([])
+	  // 投げ銭
+	  const donationHistory = ref([])
+
 	  onMounted(async () => {
 		try {
-		  // ローカルストレージから閲覧履歴を読み込む
-		  const historyStr = localStorage.getItem('viewHistory') || '[]'
-		  viewHistory.value = JSON.parse(historyStr)
+			//ユーザ系
+			const userRes = await api.get('users/')
+			username.value = userRes.data.username
+
+			// 閲覧履歴
+			const historyStr = localStorage.getItem('viewHistory') || '[]'
+			viewHistory.value = JSON.parse(historyStr)
   
-		  // /api/favorites/ でお気に入り一覧を取得 (要ログイン)
-		  const res = await api.get('favorites/')
-		  // 返ってくるのが [ { id, user, post: {...} }, ... ] の想定
-		  // → fav.post を配列に格納
-		  favoritePosts.value = res.data.map(fav => fav.post)
+		  // お気に入り一覧
+		  const favRes = await api.get('favorites/')
+		  favoritePosts.value = favRes.data.map(fav => fav.post)
+  
+		  // 投げ銭履歴
+		  const donationRes = await api.get('payments/history/')
+		  donationHistory.value = donationRes.data
 		} catch (error) {
-		  console.error('お気に入り取得エラー:', error)
+		  console.error('ダッシュボード取得エラー:', error)
 		}
 	  })
   
-	  // お気に入りをそのまま返すだけ
+	  // filteredPosts とかは既存ロジックを継承
 	  const filteredPosts = computed(() => favoritePosts.value)
-
+  
 	  return {
+		username,
 		favoritePosts,
 		filteredPosts,
-		viewHistory // ← ここを忘れずに返す
+		viewHistory,
+		donationHistory,
+		formatDateTime
 	  }
 	}
   }
   </script>
-  

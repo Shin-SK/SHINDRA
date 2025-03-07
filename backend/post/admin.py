@@ -19,7 +19,7 @@ class PostAdmin(admin.ModelAdmin):
     list_display = ("id", "title", "category", "visibility", "image_preview", "publish_at", "member_at", "visibility_at", "created_at")
     list_filter = ("category", "tags", "visibility")
     search_fields = ("title", "content")
-    prepopulated_fields = {"slug": ("title",)}
+    # prepopulated_fields = {"slug": ("title",)}
     filter_horizontal = ("tags",)
     ordering = ("-created_at",)
 

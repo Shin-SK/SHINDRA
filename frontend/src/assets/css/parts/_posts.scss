@@ -3,7 +3,55 @@
 
 .posts{
     &--list{
-		.search{
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		align-items: center;
+		justify-content: center;
+		padding-bottom: 96px;
+		padding-top: 32px;
+		gap: 24px;
+		.wrap{
+			position: relative;
+			.contents-title{
+				position: absolute;
+				right: 0;
+				top: -32px;
+				@include gotham;
+				@include fs(40);
+				line-height: 1;
+			}
+			.area{
+				.box{
+					.tumbnail{
+						img{
+							object-fit: cover;
+							aspect-ratio: 16/9;
+							max-width: 100%;
+						}
+					}
+				}
+			}
+		}
+    }
+	&--search{
+		header{
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			h2{
+				padding-left: 0;
+				i{
+					margin-right: 8px;
+				}
+			}
+			.search-button{
+				i{
+					@include fs(20);
+				}
+			}
+		}
+		.text-search{
 			margin-bottom: 40px;
 			input{
 				width: 100%;
@@ -19,6 +67,7 @@
 			.wrap{
 				@include flex();
 				gap: 16px;
+				flex-wrap: wrap;
 				span,button{
 					background-color: white;
 					padding: 8px 24px;
@@ -32,33 +81,86 @@
 				}
 			}
 		}
-        .area{
-            display: grid;
-            grid-template-columns: repeat(4,1fr);
-            gap: 16px;
-            .box{
-                .tumbnail{
-                    img{
-                        object-fit: cover;
-                        aspect-ratio: 16/9;
-                        max-width: 100%;
-                    }
-                }
-                .tags{
-                    display: flex;
-                    justify-content: flex-start;
-                    align-items: center;
-                    gap: 8px;
-					flex-wrap: wrap;
-                    span{
-                        background-color: $gray;
-                        padding: 8px 16px;
-                        @include flex();
-                        @include fs(10);
-						cursor: default;
-                    }
-                }
-            }
-        }
-    }
+	}
+	&--podcast{
+		.area{
+			padding: 40px;
+			background-color: white;
+			h1{
+				text-align: center;
+				@include fs(20);
+				font-weight: bold;
+				margin-bottom: 16px;
+			}
+			.contents{
+				iframe{
+					width: 100%;
+					height: auto;
+					aspect-ratio: 16/9;
+				}
+			}
+		}
+	}
+	&--default{
+		padding: 8px 0px;
+		padding-bottom: 80px;
+		.wrap{
+			.area{
+				height: 95vh;
+				width: 100%;
+				overflow-x: scroll;
+				display: flex;
+				align-items: flex-start;
+				flex-direction: row-reverse;
+				background-color: white;
+				padding: 40px;
+				color: black;
+				h1{
+					@include fs(20);
+					font-weight: bold;
+					display: block;
+					writing-mode: vertical-rl;
+					text-orientation: upright;
+				}
+				.contents{
+					&__story{
+						writing-mode: vertical-rl;
+						text-orientation: upright;
+						line-height: 2;
+						text-align: justify;
+						column-count: 1;
+						white-space: pre-line;//今だけ
+						padding-left: 50%;
+						h3{
+							@include fs(20);
+							margin-left: 16px;
+						}
+						/* 行：table-row */
+						.line {
+							display: table-row;
+							> div {
+								display: table-cell;
+								vertical-align: top;
+								// padding: 0.5em;
+								}
+							/* 役名セル（幅固定） */
+							.role {
+								height: 70px;
+							}
+							/* セリフ・ト書きセル */
+							.speech {
+								/* 幅指定せず自動で可変 */
+							}
+							&.blank {
+								width: 1.5;
+							}
+						}
+					}
+				}
+			}
+		}//__wrap
+		.thumbnail{
+			padding: 16px 0px;
+		}
+	}
 }

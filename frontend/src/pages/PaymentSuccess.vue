@@ -15,6 +15,15 @@
 	</div>
   </template>
 
+
 <script>
-    confetti();
+export default {
+  name: "PaymentSuccess",
+  mounted() {
+    // window.confetti() が使える（CDNで読み込んでいるならグローバルで定義されている）
+    if (typeof window.confetti === 'function') {
+      window.confetti();
+    }
+  }
+}
 </script>
