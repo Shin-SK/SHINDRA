@@ -2,7 +2,7 @@
 from django.apps import AppConfig
 
 class PostConfig(AppConfig):
-    name = 'post'
+    name = 'backend.post'
 
     def ready(self):
         import post.signals  # シグナルを読み込む

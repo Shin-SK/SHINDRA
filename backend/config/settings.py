@@ -44,12 +44,11 @@ INSTALLED_APPS = [
     'corsheaders',
     'stripe',
     'django_filters',
-    'notification.apps.NotificationsConfig',
-    'post.apps.PostConfig',
-    # 'post',
-    'user',
-    'favorite',
-    'payment',
+    'backend.notification.apps.NotificationsConfig',
+    'backend.post.apps.PostConfig',
+    'backend.user',
+    'backend.favorite',
+    'backend.payment',
 ]
 
 

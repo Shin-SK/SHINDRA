@@ -2,7 +2,7 @@
 from django.apps import AppConfig
 
 class NotificationsConfig(AppConfig):
-    name = 'notification'
+    name = 'backend.notification'
 
     def ready(self):
         import notification.signals  # シグナルを読み込む
