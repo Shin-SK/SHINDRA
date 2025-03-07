@@ -8,7 +8,7 @@ from rest_framework.exceptions import NotFound
 
 from .models import Post, Category, Tag
 from .serializers import PostSerializer, CategorySerializer, TagSerializer
-from backend.user.permissions import IsAdminUser
+from user.permissions import IsAdminUser
 
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Post

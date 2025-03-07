@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from backend.post.models import Post
+from post.models import Post
 
 class Donation(models.Model):
     """投げ銭履歴"""

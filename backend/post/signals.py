@@ -5,8 +5,8 @@ from django.core.mail import EmailMessage
 from django.conf import settings
 
 from .models import Post
-from backend.notification.models import Notification
-from backend.user.models import CustomUser
+from notification.models import Notification
+from user.models import CustomUser
 
 @receiver(post_save, sender=Post)
 def notify_post_created_or_published(sender, instance, created, **kwargs):

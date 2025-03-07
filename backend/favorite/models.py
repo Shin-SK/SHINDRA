@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from backend.post.models import Post
+from post.models import Post
 
 class Favorite(models.Model):
     """投稿のお気に入り機能（いいね）"""

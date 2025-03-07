@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Favorite
-from backend.post.serializers import PostSerializer
+from post.serializers import PostSerializer
 
 
 class FavoriteSerializer(serializers.ModelSerializer):
