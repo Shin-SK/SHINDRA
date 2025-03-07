@@ -219,5 +219,6 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
     'studio-shindra-dcf84f702c19.herokuapp.com',
+    'admin.studio-shindra.com',
     # 必要であればその他のドメインも...
 ]
