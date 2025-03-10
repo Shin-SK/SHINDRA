@@ -6,7 +6,7 @@
 			</div>
 		</section>
 	  <!-- お気に入り一覧 -->
-	  <div class="wrap db db--fav">
+	  <div class="wrap db db--fav" v-if="favoritePosts.length > 0">
 		<div class="contents-title">LIKE</div>
 		<div class="area grid grid--dashboard">
 		  <div class="box" v-for="post in filteredPosts" :key="post.id">
@@ -28,9 +28,9 @@
 		  </div>
 		</div>
 	  </div>
-  
+
 	  <!-- 閲覧履歴 -->
-	  <div class="wrap db db--history">
+	  <div class="wrap db db--history" v-if="viewHistory.length > 0">
 		<div class="contents-title">HISTORY</div>
 		<div class="area grid grid--dashboard">
 		  <div class="box" v-for="item in viewHistory" :key="item.id">
@@ -50,7 +50,7 @@
 	  </div>
   
 	  <!-- 🔹投げ銭一覧 追加！ -->
-	  <div class="wrap db db--donation">
+	  <div class="wrap db db--donation" v-if="donationHistory.length > 0">
 		<div class="contents-title">DONATE</div>
 		<div class="area grid grid--dashboard">
 		  <div class="box" v-for="donation in donationHistory" :key="donation.id">

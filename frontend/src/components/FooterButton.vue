@@ -2,8 +2,8 @@
 	<!-- フッターボタンの大枠 -->
 	<div class="footer-button"
 		 :class="{
-		   visible: isScroll,   // 100px以上スクロールしたらボタンが見える
-		   open: isOpen         // メニュー展開中
+		   visible: isVisible,   // 100px以上スクロールしたらボタンが見える
+		   open: isOpen
 		 }"
 	>
 	  <!-- オーバーレイ (メニュー開いたとき画面をクリックで閉じる) -->
@@ -48,6 +48,9 @@
 		  <button><i class="fas fa-cog"></i></button>
 		</router-link>
 
+		<a>
+			<LogoutButton />
+		</a>
 		<!-- 
 			scss button footer-buttonのボタン数を変える
 		-->
@@ -56,34 +59,21 @@
 	</div> <!-- .footer-button -->
   </template>
   
-<script setup>
-import { ref, watch, onMounted } from 'vue'
-import { useWindowScroll } from '@vueuse/core'
-
-const isOpen = ref(false)
-const isScroll = ref(false)
-const { y } = useWindowScroll()
-
-onMounted(() => {
-  // コンテンツ総高さがビューポートの高さ以下なら、はじめからボタンを表示
-  if (document.documentElement.scrollHeight <= window.innerHeight) {
-    isScroll.value = true
-  }
+  <script setup>
+  import { ref, onMounted } from 'vue'
+import LogoutButton from './LogoutButton.vue'
+  
+  const isOpen = ref(false)
+  const isVisible = ref(false) // 初期値 false
+  
+  onMounted(() => {
+  // 一度描画されてから次フレームでvisibleクラスをONにする
+  requestAnimationFrame(() => {
+    isVisible.value = true
+  })
 })
-
-watch(
-  () => y.value,
-  (newY) => {
-    // 100px以上スクロールしたらボタン表示
-    if (newY > 100) {
-      isScroll.value = true
-    } else {
-      isScroll.value = false
-    }
+  
+  function toggleMenu() {
+	isOpen.value = !isOpen.value
   }
-)
-
-function toggleMenu() {
-  isOpen.value = !isOpen.value
-}
-</script>
+  </script>

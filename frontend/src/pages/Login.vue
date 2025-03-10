@@ -2,10 +2,13 @@
 	<div class="form login">
 	  <form @submit.prevent="login" class="form__wrap">
 		<div class="area">
-			<input v-model="username" required placeholder="USERNAME" />
-			<input v-model="password" type="password" placeholder="PASSWORD" />
+			<input v-model="username" required placeholder="USERNAME" autocapitalize="none" autocomplete="off" autocorrect="off" />
+			<input v-model="password" type="password" placeholder="PASSWORD" autocapitalize="none" autocomplete="off" autocorrect="off" />
 			<button type="submit"><img src="@/assets/image/icon.svg" alt="">LOGIN</button>
 		</div><!-- area -->
+		<div class="area">
+			<router-link to="/signup">SIGNUP</router-link>
+		</div>
 	  </form>
 	</div>
   </template>

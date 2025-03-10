@@ -4,9 +4,9 @@
 			<h2>パスワード変更</h2>
 			<form @submit.prevent="changePassword" class="form__wrap">
 				<div class="area">
-					<input v-model="oldPassword" type="password" required placeholder="現在のパスワード"/>
-					<input v-model="newPassword1" type="password" required placeholder="新しいパスワード"/>
-					<input v-model="newPassword2" type="password" required placeholder="新しいパスワード(再入力)" />
+					<input v-model="oldPassword" type="password" required placeholder="現在のパスワード" autocapitalize="none" autocomplete="off" autocorrect="off" />
+					<input v-model="newPassword1" type="password" required placeholder="新しいパスワード" autocapitalize="none" autocomplete="off" autocorrect="off" />
+					<input v-model="newPassword2" type="password" required placeholder="新しいパスワード(再入力)" autocapitalize="none" autocomplete="off" autocorrect="off" />
 					<button type="submit" :disabled="loading">変更</button>
 				</div>
 			</form>

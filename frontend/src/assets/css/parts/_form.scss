@@ -6,6 +6,8 @@ input{
 	padding: 8px;
 	width: 100%;
 	line-height: 2;
+	text-transform: none !important;
+	autocapitalize: none;
 	&::placeholder{
 		color: #e5e5e5;
 	}
@@ -20,8 +22,10 @@ label{
 .form{
 	min-height: 100vh;
 	@include flex();
+	flex-direction: column;
+	gap: 40px;
 	.form__wrap{
-		flex: 1;
+		width: 100%;
 		.area{
 			display: flex;
 			gap: 40px;
@@ -47,9 +51,14 @@ label{
 		padding: 8px;
 		@include flex();
 		background-color: $white;
+		color: $black;
 		img{
 			width: 24px;
 			margin-right: 8px;
 		}
 	}
+}
+
+.signup{
+	padding: 80px 0px;
 }

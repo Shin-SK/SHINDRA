@@ -62,7 +62,7 @@
     }
 
 // 変数を宣言
-$items: 3;
+$items: 4;
 $radius: 80px;
     /* メニュー */
     .menu {
@@ -89,6 +89,9 @@ $radius: 80px;
             left: 50%;
             top: 50%;
             transform:translate(-50%, -50%);
+            i{
+                color: $mc;
+            }
         }
     }
     &.open {
