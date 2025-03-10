@@ -96,7 +96,7 @@ def stripe_webhook(request):
         Donation.objects.create(
             user=user,
             post=post,
-            amount=session["amount_total"] // 100
+            amount=session["amount_total"]
         )
 
         print(f"[Webhook] Donation Recorded: {user.username} -> {post.title}, amount={session['amount_total']}")
