@@ -1,12 +1,8 @@
 <template>
   <!-- 全ページのルートをラップする要素 -->
   <div ref="swipeArea" class="app-wrapper" style="width:100vw; height: 100vh;">
-    <div class="container-fluid">
     <router-view />
-    </div>
   </div>
-
-  <FooterButton />
 
 </template>
 

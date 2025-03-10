@@ -54,20 +54,89 @@ h4{
     }
 }
 
-.home{
-    .area{
+.home {
+    position: relative;
+    &__wrap{
+        .area {
+        position: fixed;
         min-height: 100vh;
-        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
         @include flex();
-        flex-direction: column;
-        gap: 80px;
-        @include gotham;
-        @include fs(30);
-        a{
-            text-decoration: none;
+    
+        .image {
+            @include flex();
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeUp 2s ease forwards;
+            position: relative;
+            @keyframes fadeUp {
+            0% {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            }
+            img {
+            max-width: 50%;
+            width: 100%;
+            }
+        }//image
+                /* スクロールダウンの位置 */
+            .scroll {
+                position: absolute;
+                right: 50%;
+                bottom:120px;
+                writing-mode: vertical-rl;
+            }
+            /* 線のアニメーション部分 */
+            .scroll::before {
+                animation: scroll 2s infinite;
+                background-color: white;
+                bottom: -80px;
+                content: "";
+                height: 100px;
+                left: 0;
+                margin: auto;
+                position: absolute;
+                right: 0;
+                width: 1px;
+                animation-delay: 3s;
+                animation-fill-mode: backwards;
+            }
+            /* 線のアニメーション */
+            @keyframes scroll {
+                0% {
+                transform: scale(1, 0);
+                transform-origin: 0 0;
+                }
+                50% {
+                transform: scale(1, 1);
+                transform-origin: 0 0;
+                }
+                51% {
+                transform: scale(1, 1);
+                transform-origin: 0 100%;
+                }
+                100% {
+                transform: scale(1, 0);
+                transform-origin: 0 100%;
+                }
+            }
         }
     }
-}
+    .post-list-home{
+        margin-top: 100vh;
+        background-color: $mc;
+        position: relative;
+        box-shadow: 0px 0px 15px -5px #ffffff;
+    }
+  }
+  
 
 
 .grid{

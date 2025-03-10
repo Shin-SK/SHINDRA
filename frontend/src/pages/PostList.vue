@@ -28,7 +28,7 @@
 	  </div>
 	</div>
 
-	<div class="search-button" :class="{ visible : isScroll }">
+	<div class="search-button d-none" :class="{ visible : isScroll }">
 		<button @click="toggleSearch">
 			<i class="fas fa-search"></i>
 		</button>

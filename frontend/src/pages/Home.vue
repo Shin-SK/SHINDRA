@@ -1,9 +1,21 @@
 <template>
 	<div class="home">
-		<div class="area">
-			<router-link to="/posts/">STORY</router-link>
-			<router-link to="/posts/">PODCAST</router-link>
-			<router-link to="/mypage/">MYPAGE</router-link>
+		<div class="home__wrap">
+			<div class="area">
+				<div class="image">
+					<img src="/logo-tate.svg" alt="">
+				</div>
+				<div class="scroll"><span></span></div>
+			</div>
+		</div>
+
+		<div class="post-list-home">
+			<PostList />
 		</div>
 	</div>
 </template>
+
+
+<script setup>
+import PostList from './PostList.vue'
+</script>

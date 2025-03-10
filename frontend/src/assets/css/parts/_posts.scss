@@ -13,6 +13,7 @@
 		gap: 24px;
 		.wrap{
 			position: relative;
+			min-height: 100vh;
 			.contents-title{
 				position: absolute;
 				right: 0;
