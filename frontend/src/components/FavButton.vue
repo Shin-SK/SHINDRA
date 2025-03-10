@@ -33,7 +33,6 @@
 		try {
 		  const postRes = await api.get(`posts/${props.postSlug}/`)  
 		  // ここでレスポンスから is_favorited を取得（slugを使う）
-		  console.log("投稿詳細デバッグ:", postRes.data) // 
 		  isFavorited.value = postRes.data.is_favorited
 		} catch (error) {
 		  console.error('投稿詳細の取得エラー:', error)
