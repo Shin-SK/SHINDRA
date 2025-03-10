@@ -42,6 +42,10 @@
 		<router-link to="/dashboard" @click="toggleMenu">
 		  <button><i class="fas fa-tachometer-alt"></i></button>
 		</router-link>
+
+		<router-link to="/" @click="toggleMenu">
+		  <button><i class="fas fa-igloo"></i></button>
+		</router-link>
   
 		<!-- 設定 -->
 		<router-link to="/dashboard/settings" @click="toggleMenu">
