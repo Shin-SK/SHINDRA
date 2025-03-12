@@ -162,5 +162,13 @@
 		.thumbnail{
 			padding: 16px 0px;
 		}
+		.share{
+			@include flex();
+			gap: 40px;
+			.fav-button{
+				@include fs(40);
+				line-height: 1;
+			}
+		}
 	}
 }

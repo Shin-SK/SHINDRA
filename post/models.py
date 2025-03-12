@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.text import slugify
 from user.models import CustomUser
 from cloudinary.models import CloudinaryField
+from cloudinary.utils import cloudinary_url
 
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -51,6 +52,25 @@ class Post(models.Model):
             self.slug = uuid.uuid4().hex[:8]
         super().save(*args, **kwargs)
 
+    @property
+    def optimized_image_url(self):
+        """
+        width=600, f_auto, q_auto 等のパラメータを付けた最適化URLを返す
+        """
+        if not self.image:
+            return None
+
+        # public_id を取得
+        public_id = self.image.public_id  # ← こちらを使う
+
+        url, options = cloudinary_url(
+            public_id,
+            fetch_format='auto',
+            quality='auto',
+            crop='fill',
+        )
+        return url
+ 
     def __str__(self):
         return self.title
 

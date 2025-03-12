@@ -187,8 +187,6 @@ $radius: 80px;
 .fav-button{
     button{
         .fav{
-            width: 16px;
-            height: 16px;
             &::before{
                 @include fa("\f004");
                 color: gray;

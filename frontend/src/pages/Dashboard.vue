@@ -6,13 +6,13 @@
 			</div>
 		</section>
 	  <!-- お気に入り一覧 -->
-	  <div class="wrap db db--fav" v-if="favoritePosts.length > 0">
+	  <div class="wrap db db--fav">
 		<div class="contents-title">LIKE</div>
-		<div class="area grid grid--dashboard">
+		<div class="area grid grid--dashboard" v-if="favoritePosts.length > 0">
 		  <div class="box" v-for="post in filteredPosts" :key="post.id">
 			<!-- 画像リンク -->
 			<router-link :to="`/posts/${post.slug}`" class="tumbnail">
-			  <img v-if="post.image" :src="post.image" alt="投稿画像" />
+			  <img v-if="post.image" v-lazy="post.image" alt="投稿画像" />
 			  <img v-else src="/dummy.webp" alt="ダミー画像" />
 			</router-link>
 			<!-- タイトル -->
@@ -26,16 +26,19 @@
 				<FavButton :postId="post.id" :postSlug="post.slug" />
 			 </div>
 		  </div>
+		</div><!-- /area v-if  -->
+		<div class="no-contents" v-else>
+			<router-link to="/posts/">いい作品はきっとある</router-link>
 		</div>
 	  </div>
 
 	  <!-- 閲覧履歴 -->
-	  <div class="wrap db db--history" v-if="viewHistory.length > 0">
+	  <div class="wrap db db--history">
 		<div class="contents-title">HISTORY</div>
-		<div class="area grid grid--dashboard">
+		<div class="area grid grid--dashboard" v-if="viewHistory.length > 0">
 		  <div class="box" v-for="item in viewHistory" :key="item.id">
 			<router-link :to="`/posts/${item.slug}`" class="tumbnail">
-			  <img v-if="item.image" :src="item.image" alt="投稿画像" />
+			  <img v-if="item.image" v-lazy="item.image" alt="投稿画像" />
 			  <img v-else src="/dummy.webp" alt="ダミー画像" />
 			</router-link>
 			<div class="title">
@@ -46,17 +49,20 @@
 				</div>
 			</div>
 		  </div>
+		</div><!-- /area v-if -->
+		<div class="no-contents" v-else>
+			<router-link to="/posts/">ひとつくらい読んでほしい</router-link>
 		</div>
 	  </div>
   
 	  <!-- 🔹投げ銭一覧 追加！ -->
-	  <div class="wrap db db--donation" v-if="donationHistory.length > 0">
+	  <div class="wrap db db--donation">
 		<div class="contents-title">DONATE</div>
-		<div class="area grid grid--dashboard">
+		<div class="area grid grid--dashboard"  v-if="donationHistory.length > 0">
 		  <div class="box" v-for="donation in donationHistory" :key="donation.id">
 			<!-- 投稿へのリンク -->
 			<router-link :to="`/posts/${donation.post_slug}`" class="tumbnail">
-			  <img v-if="donation.post_image" :src="donation.post_image" alt="投稿画像" />
+			  <img v-if="donation.post_image" v-lazy="donation.post_image" alt="投稿画像" />
 			  <img v-else src="/dummy.webp" alt="投稿画像" />
 			</router-link>
 			<div class="title">
@@ -69,6 +75,9 @@
 				</div>
 			</div>
 		  </div>
+		</div><!-- area v-if -->
+		<div class="no-contents" v-else>
+			<router-link to="/posts/">愛顧のお陰で書けてます</router-link>
 		</div>
 	  </div>
 	</div>

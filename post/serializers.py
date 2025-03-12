@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Post, Category, Tag
+from cloudinary.utils import cloudinary_url
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -52,11 +53,16 @@ class PostSerializer(serializers.ModelSerializer):
         return " ".join(classes)
 
     def get_image(self, obj):
-        """画像のURLを返す。画像がない場合は None。"""
+        """最適化済み画像URLを返す。画像がない場合は None。"""
         if obj.image:
+            # いままではオリジナルURL: obj.image.url
+            # これを最適化URLに変更
+            optimized_url = obj.optimized_image_url
+            # 必要なら絶対URL化する場合は↓
             request = self.context.get("request")
-            image_url = obj.image.url
-            return request.build_absolute_uri(image_url) if request else image_url
+            if request:
+                return request.build_absolute_uri(optimized_url)
+            return optimized_url
         return None
 
     def get_is_favorited(self, obj):

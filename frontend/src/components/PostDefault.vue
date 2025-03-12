@@ -14,6 +14,11 @@
 		</div>
 		<div class="share">
 		  <ShareButton :title="post.title"/>
+		  <FavButton
+          v-if="post.id && post.slug"
+          :postId="post.id"
+          :postSlug="post.slug"
+        />
 		</div>
 		<div class="donate">
 		  <DonateButton v-if="post.id" :postId="post.id" />

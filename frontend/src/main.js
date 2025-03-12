@@ -16,17 +16,14 @@ function registerGlobalComponents(app) {
   });
 }
 
-
-
 const app = createApp(App);
 app.use(router);
 app.use(VueLazyload, {
-  // デフォルトの設定
   preload: 1.3,
-  error: '/path/to/error.png',
   loading: loadingImage,
   attempt: 1
 })
+
 
 // コンポーネントを自動登録
 registerGlobalComponents(app);
