@@ -10,15 +10,21 @@
 		</div>
 	  </div>
   
+	  <!-- ここを"部分的"にプリローダー化したい -->
 	  <div class="post-list-home">
 		<div class="container-fluid">
-		<PostList />
+		  <!-- 読み込み中はスピナーを表示して、PostListは隠す -->
+		  <LoadingSpinner v-show="loadingPostList" />
+		  <PostList v-show="!loadingPostList" />
 		</div>
 	  </div>
   
-		<transition name="fade-slide">
-			<FooterButton v-if="showFooter" />
-		</transition>
+	  <div ref="footerSentinel"></div>
+  
+	  <!-- footer -->
+	  <transition name="fade-slide">
+		<FooterButton v-if="showFooter" />
+	  </transition>
 	</div>
   </template>
   
@@ -26,59 +32,64 @@
   import { ref, onMounted, onBeforeUnmount } from 'vue'
   import PostList from './PostList.vue'
   import FooterButton from '../components/FooterButton.vue'
+  import LoadingSpinner from '../components/LoadingSpinner.vue'
   
   export default {
 	name: 'Index',
-	components: { PostList, FooterButton },
+	components: { PostList, FooterButton, LoadingSpinner },
 	setup() {
-	  const homeWrap = ref(null)
+	  // Footer用
+	  const footerSentinel = ref(null)
 	  const showFooter = ref(false)
 	  let observer = null
   
+	  // PostList用 ローディング状態
+	  const loadingPostList = ref(true)
+  
 	  onMounted(() => {
-		// Intersection Observer
-		observer = new IntersectionObserver((entries) => {
-		  const entry = entries[0]
-		  // 交差している割合: entry.intersectionRatio (0～1)
-		  // 0 なら完全に画面外、1 なら完全に画面内
-		  if (entry.intersectionRatio <= 0) {
-			// home__wrap が完全に消えたら
-			showFooter.value = true
-		  } else {
-			// まだ画面内に少しでも残っていれば
-			showFooter.value = false
-		  }
+		// ① ページを表示した瞬間はスクロール無効に
+      	document.body.style.overflow = 'hidden'
+		// 例: 3秒後に「読み込み完了した」とみなす
+		setTimeout(() => {
+		  loadingPostList.value = false
+		  document.body.style.overflow = 'auto'
+		}, 3000)
+  
+		// フッター用IntersectionObserver
+		observer = new IntersectionObserver(([entry]) => {
+		  showFooter.value = entry.isIntersecting
 		}, {
-		  root: null,        // ビューポート基準
-		  threshold: 0.0     // 0% (完全に外れたら false)
+		  root: null,
+		  threshold: 0
 		})
   
-		if (homeWrap.value) {
-		  observer.observe(homeWrap.value)
+		if (footerSentinel.value) {
+		  observer.observe(footerSentinel.value)
 		}
 	  })
   
 	  onBeforeUnmount(() => {
-		if (observer) {
-		  observer.disconnect()
-		}
+		if (observer) observer.disconnect()
 	  })
   
 	  return {
-		homeWrap,
-		showFooter
+		footerSentinel,
+		showFooter,
+		loadingPostList
 	  }
 	}
   }
   </script>
   
-
   <style scoped>
-.fade-slide-enter-active, .fade-slide-leave-active {
-  transition: transform 0.3s, opacity 0.3s;
-}
-.fade-slide-enter-from, .fade-slide-leave-to {
-  transform: translateY(20px);
-  opacity: 0;
-}
-</style>
+  .fade-slide-enter-active,
+  .fade-slide-leave-active {
+	transition: transform 0.3s, opacity 0.3s;
+  }
+  .fade-slide-enter-from,
+  .fade-slide-leave-to {
+	transform: translateY(20px);
+	opacity: 0;
+  }
+  </style>
+  

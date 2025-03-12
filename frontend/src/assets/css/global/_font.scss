@@ -1,15 +1,21 @@
 //----- font -----//
 
-@import url("https://use.typekit.net/dno3cfa.css");
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 
 @mixin gotham{
-    font-family: "brother-1816", sans-serif;
-    font-weight: 800;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 900;
     font-style: normal;
 }
 
 @mixin cinzel{
-    font-family: "cinzel", sans-serif;
+    font-family: "Cinzel", serif;
+    font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
+}
+
+body{
+    font-family: "游ゴシック体", YuGothic, "游ゴシック Medium", "Yu Gothic Medium", "游ゴシック", "Yu Gothic", sans-serif;
 }

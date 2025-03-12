@@ -7,7 +7,7 @@
 		  <div class="box" v-for="post in posts" :key="post.id">
 			<!-- 画像リンク -->
 			<router-link :to="`/posts/${post.slug}`" class="thumbnail">
-			  <img v-if="post.image" :src="post.image" alt="投稿画像" />
+			  <img v-if="post.image" v-lazy="post.image" alt="投稿画像" />
 			  <img v-else src="/dummy.webp" alt="ダミー画像" />
 			</router-link>
 			<div class="title">
