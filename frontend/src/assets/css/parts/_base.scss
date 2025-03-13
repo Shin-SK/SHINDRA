@@ -5,6 +5,12 @@ html::-webkit-scrollbar {
     //画面のグラつき、めり込む問題解消
     display: none;
   }
+html{
+    background-color: black;
+    background-image: url("/icon.svg");
+    background-position: center;
+    background-size: 30%;
+}
 body{
     background-color: $mc;
     color:$white;
@@ -221,4 +227,42 @@ h4{
     .pw-reset{
         flex:1;
     }
+}
+
+
+.loading-overlay {
+	position: fixed;
+	top: 0;
+    left: 0;
+	width: 100vw; height: 100vh;
+	background:black;
+	z-index: 9999;
+    opacity: 1;
+    transition: opacity 0.5s;
+    @include flex();
+    &.fade-out {
+        opacity: 0;
+    }
+    .spinner {
+        @include flex();
+        img{
+            transform-origin: 50% 62%;
+            /* 2秒かけて回転 → 繰り返し */
+            animation: rotateWithBezier 2s infinite;
+            /* バック系のキュービックベジェ */
+            animation-timing-function: cubic-bezier(0.17,1.67,0.83,0.67);
+            width: 30%;
+            height: auto;
+        }
+    }
+  
+    @keyframes rotateWithBezier {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+    }
+
 }

@@ -1,60 +1,47 @@
 <template>
-	<div class="base-layout container-fluid">
-  
-	  <!-- 1) ページ先頭付近に空要素を配置し、IntersectionObserverで監視 -->
+		<!-- 1) ローディング -->
+		<LoadingOverlay/>
+
+		<div class="base-layout container-fluid">
+	  <!-- 2) スクロール監視 -->
 	  <div class="top-sentinel" ref="topSentinel"></div>
-  
-	  <!-- メインコンテンツ (router-viewなど) -->
 	  <router-view />
-  
-	  <!-- 2) スクロールで topSentinel が画面外になったら FooterButton を表示 -->
 	  <transition name="fade-slide">
 		<FooterButton v-if="showFooter" />
 	  </transition>
 	</div>
   </template>
   
-  <script>
+  <script setup>
   import { ref, onMounted, onBeforeUnmount } from 'vue'
   import FooterButton from '@/components/FooterButton.vue'
+  import LoadingOverlay from '@/components/LoadingOverlay.vue'
+  import { useLoadingStore } from '@/stores/loadingStore'
   
-  export default {
-	name: 'BaseLayout',
-	components: {
-	  FooterButton
-	},
-	setup() {
-	  const topSentinel = ref(null)
-	  const showFooter = ref(false)
-	  let observer = null
+  // ここでPiniaのstoreを呼び出す
+  const loadingStore = useLoadingStore()
   
-	  onMounted(() => {
-		// IntersectionObserver のコールバック
-		observer = new IntersectionObserver(([entry]) => {
-		  // 画面外に出た(＝スクロールした)らtrueにする
-		  showFooter.value = !entry.isIntersecting
-		}, {
-		  root: null,
-		  threshold: 0
-		})
+  const topSentinel = ref(null)
+  const showFooter = ref(false)
+  let observer = null
   
-		if (topSentinel.value) {
-		  observer.observe(topSentinel.value)
-		}
-	  })
+  onMounted(() => {
+	observer = new IntersectionObserver(([entry]) => {
+	  // 画面外に出たらtrue
+	  showFooter.value = !entry.isIntersecting
+	}, {
+	  root: null,
+	  threshold: 0
+	})
   
-	  onBeforeUnmount(() => {
-		if (observer) {
-		  observer.disconnect()
-		}
-	  })
-  
-	  return {
-		topSentinel,
-		showFooter
-	  }
+	if (topSentinel.value) {
+	  observer.observe(topSentinel.value)
 	}
-  }
+  })
+  
+  onBeforeUnmount(() => {
+	if (observer) observer.disconnect()
+  })
   </script>
   
   <style scoped>
@@ -67,5 +54,16 @@
 	transform: translateY(20px);
 	opacity: 0;
   }
+
+	.fade-enter-active,
+	.fade-leave-active {
+		opacity: 1;
+		transition: opacity 0.3s;
+	}
+
+	.fade-enter-from,
+	.fade-leave-to {
+		opacity: 0;
+	}
   </style>
   
