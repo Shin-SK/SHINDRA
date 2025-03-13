@@ -5,12 +5,6 @@ html::-webkit-scrollbar {
     //画面のグラつき、めり込む問題解消
     display: none;
   }
-html{
-    background-color: black;
-    background-image: url("/icon.svg");
-    background-position: center;
-    background-size: 30%;
-}
 body{
     background-color: $mc;
     color:$white;
