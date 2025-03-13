@@ -1,22 +1,27 @@
 <!doctype html>
-<html lang="ja" style="
-    background-color: black;
-    background-image: url('/icon-wh.svg');
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: 25%;
-    height: 100vh;
-    width: 100vw;">
+<html lang="ja">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/icon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>STUDIO SHINDRA</title>
+    <link rel="apple-touch-icon" sizes="192x192" href="/icon-192.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/66f29bbc2b.js" crossorigin="anonymous"></script>
     <!-- Web Font Loader (Google公式CDNから) -->
     <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
     <style>
+      /* プリローダーがわり */
+      html{
+        background-color: black;
+        background-image: url('/icon-wh.svg');
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: 25%;
+        height: 100vh;
+        width: 100vw;
+      }
+
       /* 読み込み完了前はテキスト非表示 */
       body {
         visibility: hidden;
@@ -26,6 +31,7 @@
       .fonts-loaded body {
         visibility: visible;
       }
+
     </style>
 </head>
   <body>
