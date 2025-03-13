@@ -3,12 +3,14 @@
 		<LoadingOverlay/>
 
 		<div class="base-layout container-fluid">
-	  <!-- 2) スクロール監視 -->
-	  <div class="top-sentinel" ref="topSentinel"></div>
-	  <router-view />
-	  <transition name="fade-slide">
-		<FooterButton v-if="showFooter" />
-	  </transition>
+
+			<div class="top-sentinel" ref="topSentinel"></div>
+
+			<router-view />
+
+			<transition name="fade-slide">
+				<FooterButton v-if="showFooter" />
+			</transition>
 	</div>
   </template>
   
