@@ -100,6 +100,12 @@ label{
 			gap: 16px;
 			min-height: 50vh;
 		}
+		.ce-box{
+			@include flex();
+			flex-direction: column;
+			gap: 16px;
+			min-height: 100vh;
+		}
 	}
 }
 

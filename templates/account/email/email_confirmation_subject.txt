@@ -1,0 +1,1 @@
+STUDIO SHINDRA | {{ user.username }}様のメールアドレス確認
