@@ -2,11 +2,11 @@
 	<div class="form login">
 	  <form @submit.prevent="login" class="form__wrap">
 		<div class="area">
-			<input v-model="username" required placeholder="USERNAME" autocapitalize="none" autocomplete="off" autocorrect="off" />
+			<input v-model="email" required placeholder="EMAIL" autocapitalize="none" autocomplete="off" autocorrect="off" />
 			<input v-model="password" type="password" placeholder="PASSWORD" autocapitalize="none" autocomplete="off" autocorrect="off" />
 			<button type="submit"><img src="@/assets/image/icon.svg" alt="">LOGIN</button>
 		</div><!-- area -->
-		<div class="area">
+		<div class="area signup-button">
 			<router-link to="/signup">SIGNUP</router-link>
 		</div>
 	  </form>
@@ -15,53 +15,39 @@
   
   <script setup>
   import { ref } from 'vue'
-  import api from '@/api'  // あなたの api.js を import
+  import api from '@/api'
   import { useRouter } from 'vue-router'
   
   const router = useRouter()
   
-  const username = ref('')
+  // email 変数を定義
+  const email = ref('')
   const password = ref('')
   
   async function login() {
 	try {
-	  // 1) 古いキーを掃除する（JWT残骸など）
-	  localStorage.removeItem('accessToken')
-	  localStorage.removeItem('refreshToken')
-	  localStorage.removeItem('token')
-	  // もし "user" キーに古いデータがあるなら削除
-	  localStorage.removeItem('user')
-	  localStorage.removeItem('authToken')
-  
-	  // 2) dj-rest-auth で「Tokenログイン」
-	  //    通常レスポンス: { key: "4f3a70db..." }
+	  // ローカルストレージ初期化などは省略
+	  // メールとパスワードを送信
 	  const response = await api.post('dj-rest-auth/login/', {
-		username: username.value,
+		email: email.value,
 		password: password.value
 	  })
-	  
-	  // 3) authToken をローカルストレージに保存
-	  const key = response.data.key // { key: "xxxxxx" }
+  
+	  // あとはトークンを保存 & ユーザー情報取得など
+	  const key = response.data.key
 	  localStorage.setItem('authToken', key)
-	  // 以後のAPIリクエストに付与する
 	  api.defaults.headers.common['Authorization'] = `Token ${key}`
   
-	  // 4) ログインしたユーザー情報を再取得（dj-rest-auth が提供する /user/ へGET）
-	  //    これを呼び出すと { pk, username, email, ... } が返ってくる
-	  //    endpoint: /api/dj-rest-auth/user/ (デフォルトURL)
 	  const meRes = await api.get('dj-rest-auth/user/')
-	  // 例: { pk: 123, username: "public-user", email: "..." }
 	  const userData = meRes.data
 	  localStorage.setItem('user', JSON.stringify(userData))
   
-	  // 完了メッセージ & 画面遷移
-	  alert("ログイン完了: " + userData.username)
+	  alert("ログイン完了: " + userData.email)
 	  router.push('/dashboard')
-	  
+  
 	} catch (error) {
 	  console.error("ログインエラー:", error)
-	  alert("ログインに失敗しました…")
+	  alert("ログインに失敗しました。")
 	}
   }
   </script>
-  

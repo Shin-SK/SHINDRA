@@ -8,6 +8,8 @@
 
 			<router-view />
 
+			<div ref="bottomSentinel" style="height: 1px;"></div>
+
 			<transition name="fade-slide">
 				<FooterButton v-if="showFooter" />
 			</transition>
@@ -16,28 +18,29 @@
   
   <script setup>
   import { ref, onMounted, onBeforeUnmount } from 'vue'
-  import FooterButton from '@/components/FooterButton.vue'
-  import LoadingOverlay from '@/components/LoadingOverlay.vue'
-  import { useLoadingStore } from '@/stores/loadingStore'
   
-  // ここでPiniaのstoreを呼び出す
-  const loadingStore = useLoadingStore()
-  
-  const topSentinel = ref(null)
+  const bottomSentinel = ref(null)
   const showFooter = ref(false)
   let observer = null
   
   onMounted(() => {
 	observer = new IntersectionObserver(([entry]) => {
-	  // 画面外に出たらtrue
-	  showFooter.value = !entry.isIntersecting
+	  // "entry.isIntersecting === true" なら bottomSentinel が画面内に見えている
+	  // → コンテンツが短い / またはすでに最下部にスクロール
+	  if (entry.isIntersecting) {
+		// ビューポート内に入った
+		showFooter.value = true
+	  } else {
+		// ビューポート外
+		showFooter.value = false
+	  }
 	}, {
 	  root: null,
 	  threshold: 0
 	})
   
-	if (topSentinel.value) {
-	  observer.observe(topSentinel.value)
+	if (bottomSentinel.value) {
+	  observer.observe(bottomSentinel.value)
 	}
   })
   
@@ -45,7 +48,6 @@
 	if (observer) observer.disconnect()
   })
   </script>
-  
   <style scoped>
   .fade-slide-enter-active,
   .fade-slide-leave-active {

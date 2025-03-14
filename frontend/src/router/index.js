@@ -37,6 +37,10 @@ const routes = [
         component: () => import('@/pages/ConfirmSuccess.vue')
       },
       { 
+        path: '/confirm-email', 
+        component: () => import('@/pages/ConfirmEmail.vue')
+      },
+      { 
         path: '/login', 
         name: 'login', 
         component: () => import('@/pages/Login.vue')

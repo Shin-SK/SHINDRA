@@ -23,7 +23,7 @@
 					</router-link>
 				</div>
 				<!-- お気に入りボタン -->
-				<FavButton :postId="post.id" :postSlug="post.slug" />
+				<FavButton :postId="post.id" :postSlug="post.slug" @favorite-updated="refreshFavorites"/>
 			 </div>
 		  </div>
 		</div><!-- /area v-if  -->
@@ -47,6 +47,7 @@
 					<h3>{{ item.title }}</h3>
 					</router-link>
 				</div>
+				<FavButton :postId="item.id" :postSlug="item.slug" @favorite-updated="refreshFavorites"/>
 			</div>
 		  </div>
 		</div><!-- /area v-if -->
@@ -73,6 +74,11 @@
 					<div class="donate-stamp">{{ donation.amount }} 円</div>
 					<div class="time-stamp">{{ formatDateTime(donation.created_at) }}</div>
 				</div>
+				<FavButton
+					:postId="donation.post_id"
+					:postSlug="donation.post_slug"
+					@favorite-updated="refreshFavorites"
+					/>
 			</div>
 		  </div>
 		</div><!-- area v-if -->
@@ -87,35 +93,36 @@
   import { ref, onMounted, computed } from 'vue'
   import api from '@/api'
   import TagLinks from '@/components/TagLinks.vue'
+  import FavButton from '@/components/FavButton.vue' // 忘れずにインポート
   import { formatDateTime } from '@/utils/dateFormat.js'
-
   
   export default {
 	name: 'Dashboard',
-	components: { TagLinks },
+	components: { TagLinks, FavButton },
+  
 	setup() {
-		// ユーザーネーム用
-		const username = ref('')
-		// ふぁぼ
-		const favoritePosts = ref([])
-		// 視聴履歴
-		const viewHistory = ref([])
-	  // 投げ銭
+	  // ユーザーネーム
+	  const username = ref('')
+	  // お気に入り一覧
+	  const favoritePosts = ref([])
+	  // 閲覧履歴
+	  const viewHistory = ref([])
+	  // 投げ銭履歴
 	  const donationHistory = ref([])
-
+  
+	  // 初期表示で各種データを取得
 	  onMounted(async () => {
 		try {
-			//ユーザ系
-			const userRes = await api.get('users/')
-			username.value = userRes.data.username
-
-			// 閲覧履歴
-			const historyStr = localStorage.getItem('viewHistory') || '[]'
-			viewHistory.value = JSON.parse(historyStr)
+		  // ユーザー情報
+		  const userRes = await api.get('users/')
+		  username.value = userRes.data.username
+  
+		  // 閲覧履歴 (localStorage)
+		  const historyStr = localStorage.getItem('viewHistory') || '[]'
+		  viewHistory.value = JSON.parse(historyStr)
   
 		  // お気に入り一覧
-		  const favRes = await api.get('favorites/')
-		  favoritePosts.value = favRes.data.map(fav => fav.post)
+		  await getFavorites()
   
 		  // 投げ銭履歴
 		  const donationRes = await api.get('payments/history/')
@@ -125,7 +132,22 @@
 		}
 	  })
   
-	  // filteredPosts とかは既存ロジックを継承
+	  // favorites 一覧を取得する関数（何度でも呼べるように別関数に）
+	  async function getFavorites() {
+		const favRes = await api.get('favorites/')
+		favoritePosts.value = favRes.data.map(fav => fav.post)
+	  }
+  
+	  // FavButton 側の @favorite-updated で呼ばれる処理
+	  async function refreshFavorites() {
+		try {
+		  await getFavorites()
+		} catch (error) {
+		  console.error('お気に入り一覧リロードエラー:', error)
+		}
+	  }
+  
+	  // 既存の filteredPosts
 	  const filteredPosts = computed(() => favoritePosts.value)
   
 	  return {
@@ -134,7 +156,8 @@
 		filteredPosts,
 		viewHistory,
 		donationHistory,
-		formatDateTime
+		formatDateTime,
+		refreshFavorites
 	  }
 	}
   }

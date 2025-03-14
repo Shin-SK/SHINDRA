@@ -20,7 +20,6 @@ label{
 
 
 .form{
-	min-height: 100vh;
 	@include flex();
 	flex-direction: column;
 	gap: 40px;
@@ -28,7 +27,7 @@ label{
 		width: 100%;
 		.area{
 			display: flex;
-			gap: 40px;
+			gap: 16px;
 			flex-direction: column;
 			align-items: center;
 			justify-content: center;
@@ -37,15 +36,22 @@ label{
 }
 
 
-.login, .signup, .pw-reset{
+.login, .signup, .setting{
+	h2{
+		@include fs(16);
+		margin: unset;
+		padding: unset;
+		margin-top: 40px
+	}
 	input{
 		@include gotham;
 		text-align: center;
-		@include fs(20);
+		@include fs(16);
+		font-weight: normal;
 	}
 	button{
 		@include gotham;
-		@include fs(20);
+		@include fs(16);
 		line-height: 2;
 		width: 100%;
 		padding: 8px;
@@ -57,8 +63,51 @@ label{
 			margin-right: 8px;
 		}
 	}
+	.area{
+		width: 100%;
+		.form__wrap{
+			display: flex;
+			flex-direction: column;
+			gap: 16px;
+		}
+	}
+
 }
 
 .signup{
 	padding: 80px 0px;
+	display: flex;
+	justify-content: flex-start;
+	.box{
+		width: 100%;
+	}
+}
+
+.login{
+	.signup-button{
+		margin-top: 16px;
+	}
+}
+
+
+.confirm{
+	@include flex();
+	flex-direction: column;
+	.area{
+		.cs-box{
+			@include flex();
+			flex-direction: column;
+			gap: 16px;
+			min-height: 50vh;
+		}
+	}
+}
+
+.confirm-success{
+	.cs-outer{
+		width: 100%;
+		.form{
+			justify-content: flex-start;
+		}
+	}
 }

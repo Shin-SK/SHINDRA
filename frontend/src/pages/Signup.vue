@@ -140,7 +140,7 @@
 	  })
 	  console.log('登録成功:', response.data)
 	  alert('ユーザー登録が完了しました！')
-	  router.push('/login')
+	  router.push('/confirm-email')
 	} catch (error) {
 	  console.error('登録エラー:', error.response?.data)
 	  // APIが返すエラーオブジェクトをそのまま格納

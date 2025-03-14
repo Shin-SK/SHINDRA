@@ -7,8 +7,7 @@
 		flex-direction: column;
 		width: 100%;
 		align-items: center;
-		justify-content: center;
-		padding-bottom: 96px;
+		justify-content: flex-start;
 		padding-top: 56px;
 		gap: 24px;
 		.wrap{
@@ -103,7 +102,6 @@
 	}
 	&--default{
 		padding: 8px 0px;
-		padding-bottom: 80px;
 		.wrap{
 			.area{
 				height: 95vh;

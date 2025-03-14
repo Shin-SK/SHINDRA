@@ -198,6 +198,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 
 DJ_REST_AUTH = {
     'ACCOUNT_CONFIRM_EMAIL_ON_GET': True,
+    'USER_DETAILS_SERIALIZER': 'user.serializers.CustomUserDetailSerializer',
     # 他にも設定したい項目があればここで
 }
 
@@ -220,5 +221,14 @@ ALLOWED_HOSTS = [
     'localhost',
     'studio-shindra-dcf84f702c19.herokuapp.com',
     'admin.studio-shindra.com',
-    # 必要であればその他のドメインも...
 ]
+
+
+# ▼ 新: （推奨）
+ACCOUNT_LOGIN_METHODS = {"email"}
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+
+# dj-rest-auth側の設定もあればそのまま
+LOGIN_USERNAME_KEY = "email"

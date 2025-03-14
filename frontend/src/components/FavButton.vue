@@ -13,7 +13,6 @@
   export default {
 	name: 'FavButton',
   
-	// 1) ２つの props を受け取る
 	props: {
 	  postId: {
 		type: Number,
@@ -25,29 +24,32 @@
 	  }
 	},
   
-	setup(props) {
+	setup(props, { emit }) {
 	  const isFavorited = ref(false)
   
-	  // 2) onMountedで slug で投稿詳細をGET → is_favoritedを取得
+	  // 投稿詳細を取得して、初期の「お気に入り状態」を反映
 	  onMounted(async () => {
 		try {
-		  const postRes = await api.get(`posts/${props.postSlug}/`)  
-		  // ここでレスポンスから is_favorited を取得（slugを使う）
+		  const postRes = await api.get(`posts/${props.postSlug}/`)
 		  isFavorited.value = postRes.data.is_favorited
 		} catch (error) {
 		  console.error('投稿詳細の取得エラー:', error)
 		}
 	  })
   
-	  // 3) toggleFavorite では ID ベースでお気に入り登録/解除
+	  // お気に入り登録／解除
 	  const toggleFavorite = async () => {
 		try {
 		  const response = await api.post(`favorites/${props.postId}/`)
 		  if (response.status === 201) {
+			// 新規登録
 			isFavorited.value = true
 		  } else if (response.status === 204) {
+			// 解除
 			isFavorited.value = false
 		  }
+		  // ★ ここで親に通知 → 「お気に入りが更新されたよ」
+		  emit('favorite-updated')
 		} catch (error) {
 		  if (error.response && error.response.status === 401) {
 			alert('ログインしてください')
@@ -64,4 +66,3 @@
 	}
   }
   </script>
-  
