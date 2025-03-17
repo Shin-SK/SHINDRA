@@ -10,6 +10,16 @@
     <script src="https://kit.fontawesome.com/66f29bbc2b.js" crossorigin="anonymous"></script>
     <!-- Web Font Loader (Google公式CDNから) -->
     <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+        <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+        <script>
+          window.OneSignal = window.OneSignal || [];
+          OneSignal.push(function() {
+            OneSignal.init({
+              appId: "93a283f5-e2e6-4b0d-843c-71d8e8c8bae4",
+              allowLocalhostAsSecureOrigin: true, // ここ重要
+            });
+          });
+        </script>
     <style>
       /* プリローダーがわり */
       html{
