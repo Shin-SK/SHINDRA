@@ -1,7 +1,7 @@
 import requests
 
-ONESIGNAL_APP_ID = "93a283f5-e2e6-4b0d-843c-71d8e8c8bae4"
-ONESIGNAL_REST_API_KEY = "os_v2_app_sorih5pc4zfq3bb4ohmorsf24rdovykovriemufn6bgcvidqaaccjmo356axsn5kbwdl3qhy5pgdy72qhvuflsw5h4mjcejfystcrpa"
+ONESIGNAL_APP_ID = os.environ.get("ONESIGNAL_APP_ID")
+ONESIGNAL_REST_API_KEY = os.environ.get("ONESIGNAL_REST_API_KEY")
 
 def send_push_notification(title, message):
     url = "https://onesignal.com/api/v1/notifications"
