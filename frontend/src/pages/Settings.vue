@@ -29,6 +29,12 @@
 			</div>
 		</form>
 	  </div>
+
+	  <div class="area contact">
+		<h2>Contact</h2>
+		<p>お困りの際は、instagramのDMへ</p>
+		<a href="http://instagram.com/shinkoyanagi004/" target="_blank"><i class="fab fa-instagram"></i></a>
+	  </div>
   
 	  <div class="error" v-if="errorMessage">
 		<!-- エラーメッセージを表示 -->

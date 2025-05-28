@@ -117,3 +117,23 @@ label{
 		}
 	}
 }
+
+.setting{
+	.contact{
+		h2{
+			@include fs(30);
+		}
+		p{
+			text-align: center;
+		}
+		a{
+			text-align: center;
+			margin: auto;
+			@include flex();
+			margin-top: 24px;
+			i{
+				@include fs(60);
+			}
+		}
+	}
+}

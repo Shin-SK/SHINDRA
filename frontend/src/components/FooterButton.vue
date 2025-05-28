@@ -14,7 +14,7 @@
   
 	  <!-- メインボタン (クリックでメニューを開閉) -->
 	  <button class="menu-button" @click="toggleMenu">
-		<img src="/icon-wh.svg" alt="menu icon"
+		<img src="/icon-bk.svg" alt="menu icon"
 			 :class="{ rotate: isOpen }" />
 	  </button>
   
